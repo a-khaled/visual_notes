@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:visual_notes/screens/add_notes_screen.dart';
+
+import './screens/notes_list_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,8 +16,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Center(child:Text('no notes yet')),
+      home: NotesListScreen(),
       debugShowCheckedModeBanner: false,
+      routes: {
+        AddNotesScreen.routeName: (ctx) => AddNotesScreen(),
+      },
     );
   }
 }
