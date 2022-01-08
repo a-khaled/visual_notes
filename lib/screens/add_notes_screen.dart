@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:io';
+import 'package:provider/provider.dart';
+
+import '../widgets/image_input.dart';
+import '../providers/visual_notes.dart';
+
 
 class AddNotesScreen extends StatefulWidget {
   static const routeName = '/add-place';
@@ -14,6 +20,21 @@ class _AddNotesScreenState extends State<AddNotesScreen> {
   DateTime _selectedDate;
   TimeOfDay _selectedTime;
   String dateDisplayed, timeDisplayed, status;
+  File _pickedImage;
+  int singleId = 0;
+
+  void _selectImage(File pickedImage) {
+    _pickedImage = pickedImage;
+  }
+
+  void _saveNote() {
+    if (_titleController.text.isEmpty || _descriptionController.text.isEmpty || _pickedImage == null || dateDisplayed == null || timeDisplayed == null || status == null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please fill out all fields"),));
+      return;
+    }
+    Provider.of<VisualNotes>(context, listen: false).addNote(UniqueKey().toString(), _titleController.text, _descriptionController.text, '$dateDisplayed $timeDisplayed', _pickedImage, status);
+    Navigator.of(context).pop();
+  }
 
   void _presentDatePicker() {
     showDatePicker(
@@ -148,6 +169,7 @@ class _AddNotesScreenState extends State<AddNotesScreen> {
                         ),
                       ],
                     ),
+                    ImageInput(_selectImage),
                   ],
                 ),
               )),
@@ -156,9 +178,10 @@ class _AddNotesScreenState extends State<AddNotesScreen> {
               icon: Icon(Icons.add),
               label: Text('Add Note'),
               style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.green),
                 elevation: MaterialStateProperty.all(0),
               ),
-              onPressed: () {},
+              onPressed: _saveNote,
             ),
           ],
         ));

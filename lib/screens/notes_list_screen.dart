@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import './add_notes_screen.dart';
+import '../providers/visual_notes.dart';
+import '../widgets/note_item.dart';
 
 class NotesListScreen extends StatelessWidget {
   @override
@@ -9,11 +13,40 @@ class NotesListScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Visual Notes'),
         actions: [
-          IconButton(icon: Icon(Icons.add), onPressed: () {
-            Navigator.of(context ).pushNamed(AddNotesScreen.routeName);
-          }),
+          IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                Navigator.of(context).pushNamed(AddNotesScreen.routeName);
+              }),
         ],
       ),
-        body: Center(child: Text('No Notes yet, start adding some!')));
+      body: FutureBuilder(
+        future:
+        Provider.of<VisualNotes>(context, listen: false).fetchAndSetNotes(),
+        builder: (ctx, snapshot) =>
+        snapshot.connectionState ==
+            ConnectionState.waiting
+            ? Center(child: CircularProgressIndicator())
+            : Consumer<VisualNotes>(
+            child: Center(
+              child: Text('Got no notes yet, start adding some!'),
+            ),
+            builder: (ctx, visualNotes, ch) =>
+            visualNotes.items.length <= 0
+                ? ch
+                : ListView.builder(
+                itemCount: visualNotes.items.length,
+                itemBuilder: (ctx, i) =>
+                    NoteItem(
+                        visualNotes.items[i].id,
+                        visualNotes.items[i].title,
+                        visualNotes.items[i].description,
+                        visualNotes.items[i].dateTime,
+                        visualNotes.items[i].status,
+                        visualNotes.items[i].image)
+            )
+        ),
+      ),
+    );
   }
 }
