@@ -22,4 +22,20 @@ class DBHelper {
     final db = await DBHelper.database();
     return db.query(table);
   }
+
+  static Future<List<Map<String, dynamic>>> getEntry(String table, String id) async {
+    final db = await DBHelper.database();
+    return db.query(table, where: 'id = "$id"');
+  }
+
+  static Future<void> update(String table, String id, Map<String, Object> data) async {
+    final db = await DBHelper.database();
+    db.update(table, data, where: 'id = "$id"');
+  }
+
+  static Future<void> delete(String table, String id) async {
+    final db = await DBHelper.database();
+    db.delete(table, where: 'id = "$id"');
+  }
+  
 }

@@ -8,7 +8,7 @@ import '../providers/visual_notes.dart';
 
 
 class AddNotesScreen extends StatefulWidget {
-  static const routeName = '/add-place';
+  static const routeName = '/add-note';
 
   @override
   _AddNotesScreenState createState() => _AddNotesScreenState();

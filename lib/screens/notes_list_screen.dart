@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -6,7 +5,16 @@ import './add_notes_screen.dart';
 import '../providers/visual_notes.dart';
 import '../widgets/note_item.dart';
 
-class NotesListScreen extends StatelessWidget {
+class NotesListScreen extends StatefulWidget {
+  static const routeName = '/edit-note';
+
+  @override
+  State<NotesListScreen> createState() => _NotesListScreenState();
+}
+
+class _NotesListScreenState extends State<NotesListScreen> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

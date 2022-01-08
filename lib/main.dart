@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:visual_notes/screens/add_notes_screen.dart';
 import './screens/notes_list_screen.dart';
 import './providers/visual_notes.dart';
+import './screens/edit_note_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,7 +25,9 @@ class MyApp extends StatelessWidget {
         home: NotesListScreen(),
         debugShowCheckedModeBanner: false,
         routes: {
+          NotesListScreen.routeName: (ctx) => NotesListScreen(),
           AddNotesScreen.routeName: (ctx) => AddNotesScreen(),
+          EditNoteScreen.routeName: (ctx) => EditNoteScreen(),
         },
       ),
     );
